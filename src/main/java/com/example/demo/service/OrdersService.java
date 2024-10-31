@@ -28,6 +28,7 @@ public class OrdersService {
         Orders orders = Orders.builder()
                 .productName(ordersCreateRequest.getProductName())
                 .customerName(ordersCreateRequest.getCustomerName())
+                .status("주문완료")
                 .quantity(ordersCreateRequest.getQuantity())
                 .price(totalPrice)
                 .build();

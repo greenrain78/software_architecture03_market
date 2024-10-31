@@ -26,6 +26,9 @@ public class Orders {
     private String customerName;
 
     @Column(nullable=false)
+    private String status;
+
+    @Column(nullable=false)
     private int quantity;
 
     @Column(nullable=false)
