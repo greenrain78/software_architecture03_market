@@ -23,5 +23,5 @@ public class Product {
     private int quantity;
 
     @Column(nullable=false)
-    private double price;
+    private int price;
 }
