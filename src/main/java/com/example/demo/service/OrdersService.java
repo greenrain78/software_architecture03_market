@@ -26,6 +26,14 @@ public class OrdersService {
     public Orders createOrder(OrdersCreateRequest ordersCreateRequest) {
         Product product = productRepository.findByName(ordersCreateRequest.getProductName()).stream().findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다: " + ordersCreateRequest.getProductName()));
+        // 주문 가능 수량 검증
+        if (product.getQuantity() < ordersCreateRequest.getQuantity()) {
+            throw new IllegalArgumentException("주문 가능 수량을 초과했습니다: " + ordersCreateRequest.getQuantity());
+        }
+        product.setQuantity(product.getQuantity() - ordersCreateRequest.getQuantity());
+        productRepository.save(product);
+
+        // 주문 가격 계산
         int totalPrice = product.getPrice() * ordersCreateRequest.getQuantity();
         Orders orders = Orders.builder()
                 .productName(ordersCreateRequest.getProductName())
@@ -35,5 +43,9 @@ public class OrdersService {
                 .price(totalPrice)
                 .build();
         return ordersRepository.save(orders);
+    }
+    // 주문 가능한 상품 조회 요청
+    public List<Product> getProducts(){
+        return productRepository.findAll();
     }
 }
