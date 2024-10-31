@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Recipe {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,8 +20,8 @@ public class Recipe {
     private String name;
 
     @Column(nullable=false)
-    private String description;
+    private int quantity;
 
     @Column(nullable=false)
-    private String ingredients;
+    private double price;
 }

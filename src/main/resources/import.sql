@@ -1,0 +1,1 @@
+insert into Product (id, name, price, quantity) values (1, '사과', 1000, 10);
