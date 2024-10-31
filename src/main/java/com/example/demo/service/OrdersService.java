@@ -18,9 +18,11 @@ public class OrdersService {
     private final OrdersRepository ordersRepository;
     private final ProductRepository productRepository;
 
-    public List<Orders> getOrders(String customerName) {
+    public List<Orders> getOrdersByCustomerName(String customerName) {
         return ordersRepository.findByCustomerName(customerName);
     }
+
+
     public Orders createOrder(OrdersCreateRequest ordersCreateRequest) {
         Product product = productRepository.findByName(ordersCreateRequest.getProductName()).stream().findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다: " + ordersCreateRequest.getProductName()));

@@ -18,19 +18,6 @@ import java.util.List;
 public class OrderController {
     private final OrdersService ordersService;
 
-    @GetMapping("/me")
-    public ResponseEntity<List<OrdersResponse>> getOrders(@RequestParam String customerName) {
-        log.info("주문 내역 조회 요청");
-        List<Orders> orders = ordersService.getOrders(customerName);
-        return ResponseEntity.ok(orders.stream().map(order -> OrdersResponse.builder()
-                .id(order.getId())
-                .productName(order.getProductName())
-                .customerName(order.getCustomerName())
-                .quantity(order.getQuantity())
-                .price(order.getPrice())
-                .createdAt(order.getCreatedAt())
-                .build()).toList());
-    }
     @PostMapping("/")
     public ResponseEntity<OrdersResponse> createOrder(@RequestBody OrdersCreateRequest orders) {
         log.info("주문 생성 요청");
@@ -39,50 +26,26 @@ public class OrderController {
                 .id(order.getId())
                 .productName(order.getProductName())
                 .customerName(order.getCustomerName())
+                .status(order.getStatus())
                 .quantity(order.getQuantity())
                 .price(order.getPrice())
                 .createdAt(order.getCreatedAt())
                 .build());
     }
-//    private final RecipeService recipeService;
-//
-//    @GetMapping("/")
-//    @Operation(summary = "모든 레시피 조회", description = "모든 레시피를 조회합니다.")
-//    public ResponseEntity<List<RecipeResponse>> getRecipe() {
-//        log.info("모든 레시피 조회 요청");
-//        return ResponseEntity.ok(recipeService.getRecipe());
-//    }
-//    @PostMapping("/")
-//    @Operation(summary = "레시피 생성", description = "레시피를 생성합니다.")
-//    public ResponseEntity<RecipeResponse> createRecipe(RecipeCreateRequest recipeCreateRequest) {
-//        log.info("레시피 생성 요청");
-//        return ResponseEntity.ok(recipeService.createRecipe(recipeCreateRequest));
-//    }
-//    @PutMapping("/{id}")
-//    @Operation(summary = "레시피 수정", description = "레시피를 수정합니다.")
-//    public ResponseEntity<RecipeResponse> updateRecipe(@PathVariable Long id, RecipeCreateRequest recipeCreateRequest) {
-//        log.info("레시피 수정 요청");
-//        return ResponseEntity.ok(recipeService.updateRecipe(id, recipeCreateRequest));
-//    }
-//    @DeleteMapping("/{id}")
-//    @Operation(summary = "레시피 삭제", description = "레시피를 삭제합니다.")
-//    public ResponseEntity<Void> deleteRecipe(@PathVariable Long id) {
-//        log.info("레시피 삭제 요청");
-//        recipeService.deleteRecipe(id);
-//        return ResponseEntity.ok().build();
-//    }
-//    // 레시피 추천
-////    @GetMapping("/recommend")
-////    @Operation(summary = "레시피 추천", description = "레시피를 추천합니다.")
-////    public ResponseEntity<RecipeResponse> recommendRecipe() {
-////        log.info("레시피 추천 요청");
-////        return ResponseEntity.ok(recipeService.recommendRecipe());
-////    }
-//    // 레시피 검색
-//    @GetMapping("/search")
-//    @Operation(summary = "레시피 검색", description = "레시피를 검색합니다.")
-//    public ResponseEntity<List<RecipeResponse>> searchRecipe(@RequestParam String keyword) {
-//        log.info("레시피 검색 요청");
-//        return ResponseEntity.ok(recipeService.searchRecipe(keyword));
-//    }
+
+    @GetMapping("/user")
+    public ResponseEntity<List<OrdersResponse>> getOrders(@RequestParam String customerName) {
+        log.info("사용자 주문 조회 요청");
+        List<Orders> orders = ordersService.getOrdersByCustomerName(customerName);
+        return ResponseEntity.ok(orders.stream().map(order -> OrdersResponse.builder()
+                .id(order.getId())
+                .productName(order.getProductName())
+                .customerName(order.getCustomerName())
+                .status(order.getStatus())
+                .quantity(order.getQuantity())
+                .price(order.getPrice())
+                .createdAt(order.getCreatedAt())
+                .build()).toList());
+    }
+
 }
